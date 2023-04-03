@@ -1,0 +1,20 @@
+###########################################################################################################
+### Reference:
+### - https://github.com/vegasbrianc/prometheus/blob/master/grafana/provisioning/datasources/datasource.yml
+###########################################################################################################
+
+apiVersion: 1
+
+deleteDatasources:
+  - name: _prometheues
+    orgId: 1
+
+datasources:
+- name: _prometheues
+  type: prometheus
+  access: proxy
+  orgId: 1
+  url: http://_ops_monitoring_prometheus:9090/proxy/monitoring/kc/prometheus
+  isDefault: true
+  version: 1
+  editable: false

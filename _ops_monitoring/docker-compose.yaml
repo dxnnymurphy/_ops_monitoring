@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  #######################################################################
+  ### services :: _ops_monitoring_grafana
+  #######################################################################
+  _ops_monitoring_grafana:
+    image: localhost/kc-dataengineering-monitoring-grafana/grafana:9.1.6
+    privileged: true
+    restart: always
+    env_file:
+    - $PWD/config/__envrc.d/_ops_monitoring_grafana.envrc
+    - $PWD/.secret/__envrc.d/credential._ops_monitoring_grafana.envrc
+    networks:
+    - _network-bridge-local
+    ports:
+    - 53000:3000
+    volumes:
+    - $PWD/config/_ops_monitoring_grafana/grafana.ini:/etc/grafana/grafana.ini
+    - $PWD/config/_ops_monitoring_grafana/security/ldap.toml.d/ldap.toml:/etc/grafana/security/ldap.toml
+    - $PWD/config/_ops_monitoring_grafana/provisioning/datasources/:/etc/grafana/provisioning/datasources/
+    - $PWD/config/_ops_monitoring_grafana/provisioning/dashboards/v1/:/etc/grafana/provisioning/dashboards/
+    - $PWD/config/_ops_monitoring_grafana/provisioning/alerting/:/etc/grafana/provisioning/alerting/
+    - $PWD/config/_ops_monitoring_grafana/public/emails/ng_alert_notification.html:/usr/share/grafana/public/emails/ng_alert_notification.html
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1.0'
+
+networks:
+  _network-bridge-local:
+    driver: bridge

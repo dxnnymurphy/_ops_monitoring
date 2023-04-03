@@ -1,0 +1,16 @@
+[Unit]
+Description=ops-monitoring
+Wants=network-online.target
+After=network-online.target docker.service openvpn-client@client-node-110.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=simple
+Environment=HOSTNAME=%H
+Environment=HOSTIP_PRIVATE=172.21.1.110
+WorkingDirectory=/.workspace/src/github.com/_ops_monitoring/current/_ops_monitoring 
+ExecStart=/bin/bash -c 'docker compose up'
+ExecStop=/bin/bash -c 'docker compose down'
+Restart=always
