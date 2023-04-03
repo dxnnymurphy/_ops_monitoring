@@ -31,5 +31,4 @@ init: init-manifest-on-host
 
 .PHONY: init-manifest-on-host
 init-manifest-on-host:
-	sudo yum install -y epel-release
-	sudo yum install -y sqlite
+	sudo apt install -y sqlite

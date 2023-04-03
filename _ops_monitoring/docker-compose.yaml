@@ -27,7 +27,36 @@ services:
       resources:
         limits:
           cpus: '1.0'
+    
+  #######################################################################
+  ### services :: _ops_monitoring_prometheus
+  #######################################################################
+  _ops_monitoring_prometheus:
+    image: prom/prometheus:v2.37.1
+    command:
+    - '--config.file=/etc/prometheus/prometheus.yml'
+    - '--web.external-url=/proxy/monitoring/kc/prometheus'
+    privileged: true
+    restart: always
+    env_file:
+    - $PWD/config/__envrc.d/_ops_monitoring_prometheus.envrc
+    networks:
+    - _network-bridge-local
+    ports:
+    - 59090:9090
+    volumes:
+    - $PWD/config/_ops_monitoring_prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    - $PWD/config/_ops_monitoring_prometheus/prometheus.d/:/etc/prometheus/prometheus.d/
+    - _volume__ops_monitoring_prometheus:/prometheus
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1.0'
 
 networks:
   _network-bridge-local:
     driver: bridge
+
+volumes:
+  _volume__ops_monitoring_prometheus: {}
