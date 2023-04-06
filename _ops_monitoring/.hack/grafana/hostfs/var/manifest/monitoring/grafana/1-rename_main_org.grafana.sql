@@ -1,3 +1,3 @@
 UPDATE 'org'
-SET name = 'Kepler Cheuvreux'
+SET name = 'Main Org'
 WHERE id = 1;
